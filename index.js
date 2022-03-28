@@ -10,6 +10,14 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
   console.log("Connected to MongoDB");
 });
 
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"));
+
+app.get("/", (res, req) => {
+  req.send("Welcome to node rest api");
+});
+
 app.listen(8800, () => {
   console.log("Server is running...");
 });
