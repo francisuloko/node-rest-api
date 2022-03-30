@@ -11,8 +11,15 @@ router.put("/:id", async (req, res) => {
         const salt = await brcypt.genSalt(10);
         req.body.password = await brcypt.hash(req.body.password, salt);
       } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
       }
+    }
+
+    try {
+      const user = User.findByIdAndUpdate(req.params.id, { $set: req.body, });
+      res.status(200).json("Account updated");
+    } catch (err) {
+      return res.status(403).json("Not allowed");
     }
   } else {
     return res.status(403).json("Not allowed");
