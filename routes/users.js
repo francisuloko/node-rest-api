@@ -26,7 +26,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-
 // Delete
 
 router.delete("/:id", async (req, res) => {
@@ -41,5 +40,17 @@ router.delete("/:id", async (req, res) => {
     return res.status(403).json("Not allowed");
   }
 });
+
+// Get
+
+router.get('/:id', async (req, res) => {
+  try {
+    const user = User.findById(req.params.id);
+    const {password, updatedAt, ...others}  = user._doc;
+    res.status(200).json(others);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
 
 module.exports = router;
