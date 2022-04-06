@@ -49,11 +49,11 @@ router.put('/:id/like', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post.likes.includes(req.body.userId)) {
-      await post.updateOne({ $push: { likes: req.params.userId} });
-      res.status(200).json("Post liked.");
+      await post.updateOne({ $push: { likes: req.params.userId } });
+      res.status(200).json('Post liked.');
     } else {
-      await post.updateOne({ $pull: { likes: req.params.userId }});
-      res.status(200).json("Unliked post.")
+      await post.updateOne({ $pull: { likes: req.params.userId } });
+      res.status(200).json('Unliked post.');
     }
   } catch (err) {
     res.status(500).json(err);
@@ -69,24 +69,22 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-})
+});
 
 // Timeline
 
 router.get('/timeline/all', async (req, res) => {
   try {
     const currentUser = await User.findById(req.body.userId);
-    const userPosts = await Post.find({ userId: currentUser.id })
+    const userPosts = await Post.find({ userId: currentUser.id });
     const friendsPost = await Promise.all(
-      currentUser.followings.map((friendId) => {
-        return Post.find({ userId: friendId })
-      })
+      currentUser.followings.map((friendId) => Post.find({ userId: friendId })),
     );
 
-    res.json(userPosts.concat(...friendsPost))
+    res.json(userPosts.concat(...friendsPost));
   } catch (err) {
     res.status(500).json(err);
   }
-})
+});
 
 module.exports = router;
