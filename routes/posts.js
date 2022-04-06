@@ -28,4 +28,19 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// Delete
+router.put('/:id', async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post.userId === req.body.userId) {
+      await post.deleteOne();
+      res.status(200).json('Delete successfully.');
+    } else {
+      res.status(403).json('Not allowed.');
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
