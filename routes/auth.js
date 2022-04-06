@@ -33,4 +33,5 @@ router.post('/login', async (res, req) => {
     res.status(500).json(err);
   }
 });
+
 module.exports = router;
